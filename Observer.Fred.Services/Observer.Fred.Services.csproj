@@ -1,0 +1,58 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<Authors>Leader Analytics</Authors>
+		<Company>Leader Analytics</Company>
+		<Product>LeaderAnalytics.Fred.Observer.Services</Product>
+		<Description>Services component for Observer data downloader for FRED® API</Description>
+		<Copyright>2022 Leader Analytics</Copyright>
+		<PackageProjectUrl>https://github.com/leaderanalytics/Observer.Fred.Services</PackageProjectUrl>
+		<PackageIcon>icon.png</PackageIcon>
+		<RepositoryUrl>https://github.com/leaderanalytics/Observer.Fred.Services</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>Fred economic data downloader vintage observation </PackageTags>
+		<PackageReleaseNotes>See Repository</PackageReleaseNotes>
+		<Version>1.0.0-beta.1</Version>
+		<AssemblyVersion>1.0.0.0</AssemblyVersion>
+		<FileVersion>1.0.0.0</FileVersion>
+		<PackageId>LeaderAnalytics.Observer.Fred.Services</PackageId>
+		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<RootNamespace>LeaderAnalytics.Observer.Fred.Services</RootNamespace>
+		<AssemblyName>LeaderAnalytics.Observer.Fred.Services</AssemblyName>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\icon.png" Pack="true" PackagePath="\" />
+		<None Include="..\LICENSE.md" Pack="true" PackagePath="\" />
+	</ItemGroup>
+	
+	<Target Name="CopyPackage" AfterTargets="Pack" Condition=" '$(Configuration)'=='Debug' ">
+		<Copy SourceFiles="$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="c:\NugetPackages\" />
+		<Copy SourceFiles="$(OutputPath)..\$(PackageId).$(PackageVersion).snupkg" DestinationFolder="c:\NugetPackages\" />
+	</Target>
+
+
+	<ItemGroup>
+		<PackageReference Include="AdaptiveClient" Version="3.0.3" />
+		<PackageReference Include="AdaptiveClient.EntityFrameworkCore" Version="3.0.1" />
+		<PackageReference Include="AdaptiveClient.Utilities" Version="3.0.1" />
+		<PackageReference Include="LeaderAnalytics.Vyntix.Fred.FredClient" Version="1.0.15-beta.1" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.6" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.6" />
+		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.1" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <Folder Include="Database\Migrations\" />
+	</ItemGroup>
+</Project>
