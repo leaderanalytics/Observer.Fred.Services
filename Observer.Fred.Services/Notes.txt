@@ -3,17 +3,17 @@ dotnet tool install --global dotnet-ef
 
 To add Migrations:
 	Delete files and folders under Downloader.Services/Database/Migrations
-	Open SQL Server Management Studio and/or MySQL Workbench. Delete (drop) FREDLocal database.
+	Open SQL Server Management Studio and/or MySQL Workbench. Delete (drop) Observer database.
 	
 	Note startup-project parameter for each dotnet ef command below.  Modify it if necessary.
 
-Open a command window and change directory to C:\Git\Vyntix.Fred.Downloader\Downloader.Services
-or directory where Downloader.Services.csproj project lives.
+Open a command window and change directory to C:\Git\Observer.Fred.Services\Observer.Fred.Services
+or directory where Observer.Fred.Services.csproj project lives.
 
 MSSQL:
-	dotnet ef migrations add CreateDatabase --context Downloader.Services.Db_MSSQL  --startup-project ../Downloader.Blazor/Server --output-dir Database/Migrations/MSSQL
-	dotnet ef database update --startup-project ../Downloader.Blazor/Server --context Downloader.Services.Db_MSSQL
+	dotnet ef migrations add CreateDatabase --context LeaderAnalytics.Observer.Fred.Services.Db_MSSQL  --startup-project ../../Observer.CLI/Observer.CLI --output-dir Database/Migrations/MSSQL
+	dotnet ef database update --startup-project ../../Observer.CLI/Observer.CLI --context LeaderAnalytics.Observer.Fred.Services.Db_MSSQL
 
 MySQL:
-	dotnet ef migrations add CreateDatabase --context Downloader.Services.Db_MySQL  --startup-project ../Downloader.Blazor/Server --output-dir Database/Migrations/MySQL
-	dotnet ef database update --startup-project ../Downloader.Blazor/Server --context Downloader.Services.Db_MySQL
+	dotnet ef migrations add CreateDatabase --context LeaderAnalytics.Observer.Fred.Services.Db_MySQL  --startup-project ../../Observer.CLI/Observer.CLI --output-dir Database/Migrations/MySQL
+	dotnet ef database update --startup-project ../../Observer.CLI/Observer.CLI --context LeaderAnalytics.Observer.Fred.Services.Db_MySQL

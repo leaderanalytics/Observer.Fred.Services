@@ -1,0 +1,9 @@
+global using NUnit.Framework;
+global using Autofac;
+global using Autofac.Extensions.DependencyInjection;
+global using LeaderAnalytics.AdaptiveClient;
+global using LeaderAnalytics.Observer.Fred.Services.Domain;
+global using LeaderAnalytics.Vyntix.Fred.FredClient;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.Hosting;
+global using System.Reflection;

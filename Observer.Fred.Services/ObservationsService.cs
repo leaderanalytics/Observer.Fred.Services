@@ -2,7 +2,7 @@
 
 public class ObservationsService : BaseService, IObservationsService
 {
-    public ObservationsService(Db db, IAPI_Manifest downloaderServices, IFredClient fredClient) : base(db, downloaderServices, fredClient)
+    public ObservationsService(Db db, IObserverAPI_Manifest downloaderServices, IFredClient fredClient) : base(db, downloaderServices, fredClient)
     {
     }
 

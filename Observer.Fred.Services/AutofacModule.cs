@@ -6,12 +6,7 @@ public class AutofacModule : Autofac.Module
     {
         base.Load(builder);
 
-        // Autofac & AdaptiveClient
-
         // Don't forget to do this:
         builder.RegisterModule(new LeaderAnalytics.AdaptiveClient.EntityFrameworkCore.AutofacModule());
-
-        RegistrationHelper registrationHelper = new RegistrationHelper(builder);
-        registrationHelper.RegisterModule(new AdaptiveClientModule());
     }
 }

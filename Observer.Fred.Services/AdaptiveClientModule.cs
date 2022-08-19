@@ -2,9 +2,11 @@
 
 public class AdaptiveClientModule : IAdaptiveClientModule
 {
-    public void Register(RegistrationHelper registrationHelper) => Register(registrationHelper, null); // yes it will throw
+    private readonly IEnumerable<IEndPointConfiguration> endPoints;
 
-    public void Register(RegistrationHelper registrationHelper, IEnumerable<IEndPointConfiguration> endPoints)
+    public AdaptiveClientModule(IEnumerable<IEndPointConfiguration> endPoints) => this.endPoints = endPoints ?? throw new ArgumentNullException(nameof(endPoints));
+
+    public void Register(RegistrationHelper registrationHelper)
     {
         ArgumentNullException.ThrowIfNull(registrationHelper);
         ArgumentNullException.ThrowIfNull(endPoints);
@@ -22,14 +24,6 @@ public class AdaptiveClientModule : IAdaptiveClientModule
             .RegisterDbContextOptions<DbContextOptions_MSSQL>(DatabaseProviderName.MSSQL)
             .RegisterDbContextOptions<DbContextOptions_MySQL>(DatabaseProviderName.MySQL)
 
-            // MSSQL
-            .RegisterService<ObservationsService, IObservationsService>(EndPointType.DBMS, API_Name.Observer, DatabaseProviderName.MSSQL)
-            .RegisterService<SeriesService, ISeriesService>(EndPointType.DBMS, API_Name.Observer, DatabaseProviderName.MSSQL)
-
-            // MySQL
-            .RegisterService<ObservationsService, IObservationsService>(EndPointType.DBMS, API_Name.Observer, DatabaseProviderName.MySQL)
-            .RegisterService<SeriesService, ISeriesService>(EndPointType.DBMS, API_Name.Observer, DatabaseProviderName.MySQL)
-
             // DbContext
             .RegisterDbContext<Db>(API_Name.Observer)
 
@@ -42,7 +36,20 @@ public class AdaptiveClientModule : IAdaptiveClientModule
             .RegisterDatabaseInitializer<DatabaseInitializer>(API_Name.Observer, DatabaseProviderName.MySQL)
 
             // Service Manifests
-            .RegisterServiceManifest<API_Manifest, IAPI_Manifest>(EndPointType.DBMS, API_Name.Observer, DatabaseProviderName.MSSQL)
-            .RegisterServiceManifest<API_Manifest, IAPI_Manifest>(EndPointType.DBMS, API_Name.Observer, DatabaseProviderName.MySQL);
+            .RegisterServiceManifest<API_Manifest, IObserverAPI_Manifest>(EndPointType.DBMS, API_Name.Observer, DatabaseProviderName.MSSQL)
+            .RegisterServiceManifest<API_Manifest, IObserverAPI_Manifest>(EndPointType.DBMS, API_Name.Observer, DatabaseProviderName.MySQL)
+
+            // Services - MSSQL
+            .RegisterService<CategoriesService, ICategoriesService>(EndPointType.DBMS, API_Name.Observer, DatabaseProviderName.MSSQL)
+            .RegisterService<ObservationsService, IObservationsService>(EndPointType.DBMS, API_Name.Observer, DatabaseProviderName.MSSQL)
+            .RegisterService<ReleasesService, IReleasesService>(EndPointType.DBMS, API_Name.Observer, DatabaseProviderName.MSSQL)
+            .RegisterService<SeriesService, ISeriesService>(EndPointType.DBMS, API_Name.Observer, DatabaseProviderName.MSSQL)
+
+
+            // Services - MySQL
+            .RegisterService<CategoriesService, ICategoriesService>(EndPointType.DBMS, API_Name.Observer, DatabaseProviderName.MySQL)
+            .RegisterService<ObservationsService, IObservationsService>(EndPointType.DBMS, API_Name.Observer, DatabaseProviderName.MySQL)
+            .RegisterService<ReleasesService, IReleasesService>(EndPointType.DBMS, API_Name.Observer, DatabaseProviderName.MSSQL)
+            .RegisterService<SeriesService, ISeriesService>(EndPointType.DBMS, API_Name.Observer, DatabaseProviderName.MySQL);
     }
 }
