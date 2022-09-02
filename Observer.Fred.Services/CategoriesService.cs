@@ -11,7 +11,7 @@ public class CategoriesService : BaseService, ICategoriesService
 
     public async Task<RowOpResult> DownloadCategory(string categoryID)
     {
-        ArgumentNullException.ThrowIfNull(categoryID);
+        ExtensionMethods.ThrowIfNullOrEmpty(categoryID);
         RowOpResult result = new RowOpResult();
         Category category = await fredClient.GetCategory(categoryID);
         
@@ -23,7 +23,7 @@ public class CategoriesService : BaseService, ICategoriesService
 
     public async Task<RowOpResult> DownloadCategoryChildren(string categoryID)
     {
-        ArgumentNullException.ThrowIfNull(categoryID);
+        ExtensionMethods.ThrowIfNullOrEmpty(categoryID);
         RowOpResult result = new RowOpResult();
         List<Category> categories = await fredClient.GetCategoryChildren(categoryID);
 
@@ -38,9 +38,56 @@ public class CategoriesService : BaseService, ICategoriesService
         return result;
     }
 
-    public async Task<RowOpResult> DownloadCategoryTags(string categoryID)
+    public async Task<RowOpResult> DownloadRelatedCategories(string parentID)
+    {
+        ExtensionMethods.ThrowIfNullOrEmpty(parentID);
+        RowOpResult result = new RowOpResult();
+        List<RelatedCategory> relatedCategories = await fredClient.GetRelatedCategories(parentID);
+
+        if (relatedCategories?.Any() ?? false)
+        {
+            foreach (RelatedCategory r in relatedCategories)
+                await SaveRelatedCategory(r, false);
+
+            await db.SaveChangesAsync();
+            result.Success = true;
+        }
+        return result;
+    }
+
+    public async Task<RowOpResult> DownloadCategorySeries(string categoryID)
     {
         ArgumentNullException.ThrowIfNull(categoryID);
+        RowOpResult result = new RowOpResult();
+        Category? category = await db.Categories.FirstOrDefaultAsync(x => x.NativeID == categoryID);
+
+        if (category is null)
+        {
+            RowOpResult categoryResult = await DownloadCategory(categoryID);
+
+            if (!categoryResult.Success)
+                return categoryResult;
+        }
+
+        List<Series> series = await fredClient.GetSeriesForCategory(categoryID, true);
+
+        if (series?.Any() ?? false)
+        {
+            foreach (Series s in series)
+            {
+                await serviceManifest.SeriesService.SaveSeries(s, false);
+                await serviceManifest.SeriesService.SaveSeriesCategory(new SeriesCategory { Symbol = s.Symbol, CategoryID = categoryID }, false);
+            }
+
+            await db.SaveChangesAsync();
+        }
+        result.Success = true;
+        return result;
+    }
+
+    public async Task<RowOpResult> DownloadCategoryTags(string categoryID)
+    {
+        ExtensionMethods.ThrowIfNullOrEmpty(categoryID);
         RowOpResult result = new RowOpResult();
         List<CategoryTag> categoryTags = await fredClient.GetCategoryTags(categoryID);
 
@@ -49,23 +96,6 @@ public class CategoriesService : BaseService, ICategoriesService
             foreach(CategoryTag categoryTag in categoryTags)
                 result = await SaveCategoryTag(categoryTag, false);
 
-            await db.SaveChangesAsync();
-            result.Success = true;
-        }
-        return result;
-    }
-
-    public async Task<RowOpResult> DownloadRelatedCategories(string parentID)
-    { 
-        ArgumentNullException.ThrowIfNull(parentID);
-        RowOpResult result = new RowOpResult();
-        List<RelatedCategory> relatedCategories = await fredClient.GetRelatedCategories(parentID);
-
-        if (relatedCategories?.Any() ?? false)
-        {
-            foreach (RelatedCategory r in relatedCategories)
-                await SaveRelatedCategory(r, false);
-            
             await db.SaveChangesAsync();
             result.Success = true;
         }

@@ -45,7 +45,7 @@ public abstract class BaseTest
         IDatabaseUtilities databaseUtilities = scope.Resolve<IDatabaseUtilities>();
         await databaseUtilities.DropDatabase(ep);
         DatabaseValidationResult result = await databaseUtilities.CreateOrUpdateDatabase(ep);
-        
+
         if (!result.DatabaseWasCreated)
             throw new Exception("Database was not created.");
     }

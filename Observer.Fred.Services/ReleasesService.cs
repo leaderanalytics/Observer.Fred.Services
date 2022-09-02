@@ -1,4 +1,5 @@
-﻿namespace LeaderAnalytics.Observer.Fred.Services;
+﻿using LeaderAnalytics.Observer.Fred.Services.Domain;
+namespace LeaderAnalytics.Observer.Fred.Services;
 
 public class ReleasesService : BaseService, IReleasesService
 {
@@ -46,7 +47,7 @@ public class ReleasesService : BaseService, IReleasesService
 
     public async Task<RowOpResult> DownloadRelease(string releaseID)
     {
-        ArgumentNullException.ThrowIfNull(releaseID);
+        ExtensionMethods.ThrowIfNullOrEmpty(releaseID); // replaced by ArgumentException.ThrowIfNullorEmpty(...) in .net 7
         RowOpResult result = new RowOpResult();
         Release? release = await fredClient.GetRelease(releaseID);
 
@@ -58,7 +59,7 @@ public class ReleasesService : BaseService, IReleasesService
 
     public async Task<RowOpResult> DownloadReleaseDates(string releaseID)
     {
-        ArgumentNullException.ThrowIfNull(releaseID);
+        ExtensionMethods.ThrowIfNullOrEmpty(releaseID);
         RowOpResult result = new RowOpResult();
         await DownloadReleaseIfItDoesNotExist(releaseID);
         DateTime? maxDate = db.ReleaseDates.Where(x => x.ReleaseID == releaseID).Max(x => x == null ? null as DateTime? : x.DateReleased);
@@ -77,7 +78,7 @@ public class ReleasesService : BaseService, IReleasesService
 
     public async Task<RowOpResult> DownloadReleaseSeries(string releaseID)
     {
-        ArgumentNullException.ThrowIfNull(releaseID);
+        ExtensionMethods.ThrowIfNullOrEmpty(releaseID);
         RowOpResult result = new RowOpResult();
         await DownloadReleaseIfItDoesNotExist(releaseID);
         List<Series> seriess = await fredClient.GetSeriesForRelease(releaseID);
@@ -104,7 +105,7 @@ public class ReleasesService : BaseService, IReleasesService
 
     public async Task<RowOpResult> DownloadReleaseSources(string releaseID)
     {
-        ArgumentNullException.ThrowIfNull(releaseID);
+        ExtensionMethods.ThrowIfNullOrEmpty(releaseID);
         RowOpResult result = new RowOpResult();
         await DownloadReleaseIfItDoesNotExist(releaseID);
         List<Source> sources = await fredClient.GetSourcesForRelease(releaseID);
@@ -236,6 +237,6 @@ public class ReleasesService : BaseService, IReleasesService
     {
         if ((await db.Releases.FirstOrDefaultAsync(x => x.NativeID == releaseID)) is null)
             if (!(await DownloadRelease(releaseID)).Success)
-                throw new Exception("Invalid releaseID");
+                throw new Exception($"Invalid releaseID: {releaseID}");
     }
 }

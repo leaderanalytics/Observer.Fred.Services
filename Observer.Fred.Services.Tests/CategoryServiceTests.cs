@@ -29,11 +29,21 @@ public class CategoryServiceTests : BaseTest
     }
 
     [Test]
+    public async Task DownloadCategorySeriesTest()
+    {
+        string id = "125";
+        RowOpResult result = await client.CallAsync(x => x.CategoriesService.DownloadCategorySeries(id));
+        Assert.IsTrue(result.Success);
+        Assert.That(db.SeriesCategories.Count(x => x.CategoryID == id) > 5);
+    }
+
+
+    [Test]
     public async Task DownloadCategoryTagsTest()
     {
         string id = "125";
         RowOpResult result = await client.CallAsync(x => x.CategoriesService.DownloadCategoryTags(id));
         Assert.IsTrue(result.Success);
-        Assert.That(db.CategoryTags.Count(x => x.CategoryID == id).Equals(25));
+        Assert.That(db.CategoryTags.Count(x => x.CategoryID == id) > 20);
     }
 }
