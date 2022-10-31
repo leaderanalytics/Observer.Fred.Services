@@ -1,4 +1,6 @@
 ﻿using LeaderAnalytics.Observer.Fred.Services.Domain;
+using LeaderAnalytics.Vyntix.Fred.Model;
+
 namespace LeaderAnalytics.Observer.Fred.Services;
 
 public class ReleasesService : BaseService, IReleasesService
@@ -44,6 +46,9 @@ public class ReleasesService : BaseService, IReleasesService
         }
         return result;
     }
+
+    
+
 
     public async Task<RowOpResult> DownloadRelease(string releaseID)
     {
@@ -116,6 +121,54 @@ public class ReleasesService : BaseService, IReleasesService
                 await SaveSource(source, false);
 
             await db.SaveChangesAsync();
+            result.Success = true;
+        }
+        return result;
+    }
+
+    public async Task<RowOpResult> DownloadSourceReleases(string sourceID)
+    {
+        ExtensionMethods.ThrowIfNullOrEmpty(sourceID);
+        RowOpResult result = new RowOpResult();
+        await DownloadSourceIfItDoesNotExist(sourceID);
+        List<Release> releases = await fredClient.GetReleasesForSource(sourceID);
+
+        if (releases?.Any() ?? false)
+        {
+            foreach (Release release in releases)
+                await SaveRelease(release, false);
+
+            await db.SaveChangesAsync();
+            result.Success = true;
+        }
+        return result;
+    }
+
+    public async Task<RowOpResult> DownloadAllSources()
+    {
+        RowOpResult result = new RowOpResult();
+        List<Source> sources = await fredClient.GetSources();
+
+        if (sources?.Any() ?? false)
+        {
+            foreach (Source source in sources)
+                await SaveSource(source, false);
+
+            await db.SaveChangesAsync();
+            result.Success = true;
+        }
+        return result;
+    }
+
+    public async Task<RowOpResult> DownloadSource(string sourceID)
+    {
+        ExtensionMethods.ThrowIfNullOrEmpty(sourceID); // replaced by ArgumentException.ThrowIfNullorEmpty(...) in .net 7
+        RowOpResult result = new RowOpResult();
+        Source? source = await fredClient.GetSource(sourceID);
+
+        if (source is not null)
+        {
+            result = await SaveSource(source, true);
             result.Success = true;
         }
         return result;
@@ -238,5 +291,12 @@ public class ReleasesService : BaseService, IReleasesService
         if ((await db.Releases.FirstOrDefaultAsync(x => x.NativeID == releaseID)) is null)
             if (!(await DownloadRelease(releaseID)).Success)
                 throw new Exception($"Invalid releaseID: {releaseID}");
+    }
+
+    private async Task DownloadSourceIfItDoesNotExist(string sourceID)
+    {
+        if ((await db.Sources.FirstOrDefaultAsync(x => x.NativeID == sourceID)) is null)
+            if (!(await DownloadSource(sourceID)).Success)
+                throw new Exception($"Invalid sourceID: {sourceID}");
     }
 }

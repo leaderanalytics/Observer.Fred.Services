@@ -1,6 +1,4 @@
-﻿using LeaderAnalytics.Vyntix.Fred.Model;
-
-namespace LeaderAnalytics.Observer.Fred.Services;
+﻿namespace LeaderAnalytics.Observer.Fred.Services;
 
 public class CategoriesService : BaseService, ICategoriesService
 {
