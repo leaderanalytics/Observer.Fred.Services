@@ -49,7 +49,7 @@ public class AdaptiveClientModule : IAdaptiveClientModule
             // Services - MySQL
             .RegisterService<CategoriesService, ICategoriesService>(EndPointType.DBMS, API_Name.Observer, DatabaseProviderName.MySQL)
             .RegisterService<ObservationsService, IObservationsService>(EndPointType.DBMS, API_Name.Observer, DatabaseProviderName.MySQL)
-            .RegisterService<ReleasesService, IReleasesService>(EndPointType.DBMS, API_Name.Observer, DatabaseProviderName.MSSQL)
+            .RegisterService<ReleasesService, IReleasesService>(EndPointType.DBMS, API_Name.Observer, DatabaseProviderName.MySQL)
             .RegisterService<SeriesService, ISeriesService>(EndPointType.DBMS, API_Name.Observer, DatabaseProviderName.MySQL);
     }
 }

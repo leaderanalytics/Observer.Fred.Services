@@ -7,12 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Observer.Fred.Services", "o
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Observer.Fred.Services.Tests", "Observer.Fred.Services.Tests\Observer.Fred.Services.Tests.csproj", "{EBF188FF-0E0B-4510-9A57-98F51C4E0024}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vyntix.Fred.FredClient", "..\Vyntix.Fred.FredClient\Vyntix.Fred.FredClient\Vyntix.Fred.FredClient.csproj", "{DA328725-C807-41BA-9B23-B41D053CE846}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vyntix.Fred.Model", "..\Vyntix.Fred.Model\Vyntix.Fred.Model\Vyntix.Fred.Model.csproj", "{5392703D-2F02-4F10-A22C-0928E1547B13}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vyntix.Fred.Domain", "..\Vyntix.Fred.Domain\Vyntix.Fred.Domain\Vyntix.Fred.Domain.csproj", "{CEC463BD-96BF-4A1F-A795-FC0D18A80C3C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,18 +21,6 @@ Global
 		{EBF188FF-0E0B-4510-9A57-98F51C4E0024}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EBF188FF-0E0B-4510-9A57-98F51C4E0024}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EBF188FF-0E0B-4510-9A57-98F51C4E0024}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DA328725-C807-41BA-9B23-B41D053CE846}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DA328725-C807-41BA-9B23-B41D053CE846}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DA328725-C807-41BA-9B23-B41D053CE846}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DA328725-C807-41BA-9B23-B41D053CE846}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5392703D-2F02-4F10-A22C-0928E1547B13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5392703D-2F02-4F10-A22C-0928E1547B13}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5392703D-2F02-4F10-A22C-0928E1547B13}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5392703D-2F02-4F10-A22C-0928E1547B13}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CEC463BD-96BF-4A1F-A795-FC0D18A80C3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CEC463BD-96BF-4A1F-A795-FC0D18A80C3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CEC463BD-96BF-4A1F-A795-FC0D18A80C3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CEC463BD-96BF-4A1F-A795-FC0D18A80C3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

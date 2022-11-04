@@ -45,8 +45,9 @@
 		<PackageReference Include="AdaptiveClient" Version="3.0.3" />
 		<PackageReference Include="AdaptiveClient.EntityFrameworkCore" Version="3.0.1" />
 		<PackageReference Include="AdaptiveClient.Utilities" Version="3.0.1" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.8" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.8" />
+		<PackageReference Include="LeaderAnalytics.Vyntix.Fred.FredClient" Version="1.0.18-beta.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.10" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.10" />
 		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.2" />
 	</ItemGroup>
 
@@ -54,10 +55,5 @@
 	<ItemGroup>
 	  <Folder Include="Database\Migrations\" />
 	  <Folder Include="Database\Migrations\MSSQL\" />
-	</ItemGroup>
-
-
-	<ItemGroup>
-	  <ProjectReference Include="..\..\Vyntix.Fred.FredClient\Vyntix.Fred.FredClient\Vyntix.Fred.FredClient.csproj" />
 	</ItemGroup>
 </Project>

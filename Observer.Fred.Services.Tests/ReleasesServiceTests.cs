@@ -1,7 +1,11 @@
 ﻿namespace LeaderAnalytics.Observer.Fred.Services.Tests;
 
-internal class ReleasesServiceTests : BaseTest
+public class ReleasesServiceTests : BaseTest
 {
+    public ReleasesServiceTests(string currentProviderName) : base(currentProviderName)
+    { 
+    }
+
     [Test]
     public async Task DownloadAllReleasesTest()
     {

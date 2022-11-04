@@ -6,4 +6,5 @@ global using LeaderAnalytics.Observer.Fred.Services.Domain;
 global using LeaderAnalytics.Vyntix.Fred.FredClient;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.Hosting;
-global using System.Reflection;
+global using LeaderAnalytics.Vyntix.Fred.Model;
+global using Serilog;

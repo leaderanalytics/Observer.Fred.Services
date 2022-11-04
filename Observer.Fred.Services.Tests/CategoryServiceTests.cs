@@ -2,6 +2,10 @@ namespace LeaderAnalytics.Observer.Fred.Services.Tests;
 
 public class CategoryServiceTests : BaseTest
 {
+    public CategoryServiceTests(string currentProviderName) :base(currentProviderName)
+    {
+    }
+
     [Test]
     public async Task DownloadCategoryTest()
     {
@@ -14,7 +18,7 @@ public class CategoryServiceTests : BaseTest
     public async Task DownloadCategoryChildrenTest()
     {
         string id = "13";
-        RowOpResult result = await client.CallAsync(x => x.CategoriesService.DownloadCategoryChildren(id));
+        RowOpResult result = await client.CallAsync(x => x.CategoriesService.DownloadCategoryChildren(id), EndPoint.Name);
         Assert.IsTrue(result.Success);
         Assert.That(db.Categories.Count(x => x.ParentID == id).Equals(6));
     }

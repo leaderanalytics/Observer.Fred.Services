@@ -1,8 +1,13 @@
-﻿using LeaderAnalytics.Vyntix.Fred.Model;
+﻿
+
 namespace LeaderAnalytics.Observer.Fred.Services.Tests;
 
 public class SeriesServiceTests: BaseTest
 {
+    public SeriesServiceTests(string currentProviderName) : base(currentProviderName)
+    { 
+    }
+
     [Test]
     public async Task DownloadSeriesTest()
     {
