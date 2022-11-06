@@ -1,0 +1,68 @@
+# ASP.NET Core (.NET Framework)
+# Build and test ASP.NET Core projects targeting the full .NET Framework.
+# Add steps that publish symbols, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+  tags:
+      include:
+        - release/*  
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  project: '**/Observer.Fred.Services.csproj'
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  major: 1
+  minor: 0
+  patch: $[counter(variables['minor'], 1)] #this will reset when we bump minor
+  NugetVersion: $(major).$(minor).$(patch)-beta.3
+
+steps:
+
+- task: UseDotNet@2
+  displayName: 'Use dotnet 6'
+  inputs:
+    version: '6.x'
+
+- task: NuGetToolInstaller@1
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+    vstsFeed: 'LeaderAnalyticsFeed'
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet build'
+  inputs:
+    command: 'build'
+    arguments: '--configuration $(buildConfiguration)'
+    projects: $(project)
+
+- task: DotNetCoreCLI@2
+  displayName: "dotnet pack"
+  inputs:
+    command: 'pack'
+    arguments: '--configuration $(buildConfiguration)'
+    packagesToPack: $(project)
+    versioningScheme: 'byEnvVar'
+    versionEnvVar: 'NugetVersion'
+    includesymbols: true
+   
+- task: NuGetCommand@2
+  inputs:
+    command: 'push'
+    feedsToUse: 'select'
+    vstsFeed: 'LeaderAnalyticsFeed'
+    publishVstsFeed: 'LeaderAnalyticsFeed'
+    includeSymbols: true
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.snupkg'
+
+- task: PowerShell@2
+  displayName: "Push package to nuget.org"
+  inputs:
+    targetType: 'inline'
+    script: 'nuget push $(Build.ArtifactStagingDirectory)\*.nupkg -ApiKey $(nuget.org_apikey) -Source https://api.nuget.org/v3/index.json'    
