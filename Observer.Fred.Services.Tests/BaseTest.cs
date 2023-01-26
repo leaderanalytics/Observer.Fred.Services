@@ -1,4 +1,5 @@
 ﻿using LeaderAnalytics.AdaptiveClient.EntityFrameworkCore;
+using LeaderAnalytics.Vyntix.Fred.Domain;
 using Serilog.Events;
 
 namespace LeaderAnalytics.Observer.Fred.Services.Tests;
@@ -14,6 +15,7 @@ public abstract class BaseTest
     private IHost host;
     protected string CurrentProviderName { get; set; }
     protected IEndPointConfiguration EndPoint { get; set; }
+    protected IFredClient fredClient;
 
 
     public BaseTest(string currentProviderName)
@@ -54,6 +56,7 @@ public abstract class BaseTest
     {
         scope = host.Services.GetAutofacRoot().BeginLifetimeScope();
         client = scope.Resolve<IAdaptiveClient<IObserverAPI_Manifest>>();
+        fredClient = scope.Resolve<IFredClient>();
         ResolutionHelper resolutionHelper = scope.Resolve<ResolutionHelper>();
         EndPoint = endPoints.First(x => x.API_Name == API_Name.Observer && x.ProviderName == CurrentProviderName);
         EndPoint.Preference = 1;
