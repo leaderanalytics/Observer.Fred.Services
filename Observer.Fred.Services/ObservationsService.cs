@@ -17,12 +17,12 @@ public class ObservationsService : BaseService, IObservationsService
 
         RowOpResult result = new RowOpResult();
 
-        DateTime lastVintageDate = (await db.Observations.Where(x => x.Symbol == symbol).MaxAsync(x => (DateTime?)x.VintageDate)) ?? new DateTime(1776, 7, 4);
-        List<Vintage> vintages = (await fredClient.GetVintageDates(symbol, lastVintageDate.AddDays(1)));
+        DateTime lastVintageDate = (await db.Observations.Where(x => x.Symbol == symbol).MaxAsync(x => (DateTime?)x.VintageDate)) ?? new DateTime(1776, 7, 3);
+        List<DateTime> vintages = (await fredClient.GetVintageDates(symbol, lastVintageDate.AddDays(1)));
 
         if (vintages?.Any() ?? false)
         {
-            List<Observation>  observations = await fredClient.GetObservations(symbol, vintages.Select(x => x.VintageDate)?.ToList());
+            List<Observation>  observations = await fredClient.GetObservations(symbol, vintages, null, null, DataDensity.Sparse);
 
             if (observations?.Any() ?? false)
             {

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net7.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -42,13 +42,13 @@
 
 
 	<ItemGroup>
-		<PackageReference Include="AdaptiveClient" Version="3.0.3" />
-		<PackageReference Include="AdaptiveClient.EntityFrameworkCore" Version="3.0.1" />
-		<PackageReference Include="AdaptiveClient.Utilities" Version="3.0.1" />
-		<PackageReference Include="LeaderAnalytics.Vyntix.Fred.FredClient" Version="1.0.18-beta.3" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.10" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.10" />
-		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.2" />
+		<PackageReference Include="AdaptiveClient" Version="4.0.7" />
+		<PackageReference Include="AdaptiveClient.EntityFrameworkCore" Version="4.0.4" />
+		<PackageReference Include="AdaptiveClient.Utilities" Version="4.0.3" />
+		<PackageReference Include="LeaderAnalytics.Vyntix.Fred.FredClient" Version="1.0.21-beta.4" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.2" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.2" />
+		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
 	</ItemGroup>
 
 
